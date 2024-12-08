@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ronda
+  name: ronda
+spec:
+  selector:
+    matchLabels:
+      app: ronda
+  template:
+    metadata:
+      labels:
+        app: ronda
+    spec:
+      initContainers:
+      - name: init-container
+        image: alpine:3.18
+        command: ['sh', '-c', 'until nc -z -w 3 database 5432;do echo Waiting for the database...; sleep 5; done;']
+      containers:
+      - image: ozennou/ronda_game:latest
+        name: ronda-game
+        envFrom:
+          - secretRef:
+              name: app-secret
+        ports:
+          - containerPort: 8000
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 10
