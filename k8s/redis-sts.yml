@@ -16,6 +16,7 @@ spec:
     spec:
       containers:
         - image: redis:7.4.1-bookworm
+          imagePullPolicy: IfNotPresent
           name: redis
           ports:
             - containerPort: 6379

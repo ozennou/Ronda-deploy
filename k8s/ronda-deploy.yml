@@ -5,6 +5,7 @@ metadata:
     app: ronda
   name: ronda
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: ronda
@@ -20,6 +21,7 @@ spec:
       containers:
       - image: ozennou/ronda_game:latest
         name: ronda-game
+        imagePullPolicy: Always
         envFrom:
           - secretRef:
               name: app-secret
