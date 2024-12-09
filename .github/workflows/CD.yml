@@ -1,6 +1,4 @@
-
-
-name: Build and deploy an app to AKS
+name: Deploy to AKS
 
 on:
   push:
@@ -8,11 +6,8 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_CONTAINER_REGISTRY: "your-azure-container-registry"
-  CONTAINER_NAME: "your-container-name"
-  RESOURCE_GROUP: "your-resource-group"
-  CLUSTER_NAME: "your-cluster-name"
-  DEPLOYMENT_MANIFEST_PATH: "your-deployment-manifest-path"
+  RESOURCE_GROUP: "Ronda-game_group"
+  CLUSTER_NAME: "Ronda-game"
 
 jobs:
 
@@ -32,20 +27,20 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      # # Use kubelogin to configure your kubeconfig for Azure auth
-      # - name: Set up kubelogin for non-interactive login
-      #   uses: azure/use-kubelogin@v1
-      #   with:
-      #     kubelogin-version: 'v0.0.25'
+      # Use kubelogin to configure your kubeconfig for Azure auth
+      - name: Set up kubelogin for non-interactive login
+        uses: azure/use-kubelogin@v1
+        with:
+          kubelogin-version: 'v0.0.25'
 
-      # # Retrieves your Azure Kubernetes Service cluster's kubeconfig file
-      # - name: Get K8s context
-      #   uses: azure/aks-set-context@v3
-      #   with:
-      #     resource-group: ${{ env.RESOURCE_GROUP }}
-      #     cluster-name: ${{ env.CLUSTER_NAME }}
-      #     admin: 'false'
-      #     use-kubelogin: 'true'
+      # Retrieves your Azure Kubernetes Service cluster's kubeconfig file
+      - name: Get K8s context
+        uses: azure/aks-set-context@v3
+        with:
+          resource-group: ${{ vars.RESOURCE_GROUP }}
+          cluster-name: ${{ vars.CLUSTER_NAME }}
+          admin: 'false'
+          use-kubelogin: 'true'
 
       # # Deploys application based on given manifest file
       # - name: Deploys application
