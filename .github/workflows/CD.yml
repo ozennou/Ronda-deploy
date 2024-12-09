@@ -40,8 +40,11 @@ jobs:
           admin: 'false'
           use-kubelogin: 'true'
 
-      - name: test
-        run: kubectl get nodes
+      - name: test1
+        run: kubectl config view
+
+      - name: test2
+        run: kubectl get nodes --request-timeout=1m
 
       # # Deploys application based on given manifest file
       # - name: Deploys application
