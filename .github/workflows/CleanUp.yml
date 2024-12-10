@@ -38,6 +38,6 @@ jobs:
         
           - name: Remove the k8s objects
             run: |
-                kubectl delete pods,deployments,services,secrets,statefulset -n default -l backend=ronda
+                kubectl delete pods,deployments,services,secrets,statefulset,ingress -n default -l backend=ronda
               
       
