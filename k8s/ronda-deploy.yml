@@ -20,7 +20,7 @@ spec:
         image: alpine:3.18
         command: ['sh', '-c', 'until nc -z -w 3 database 5432;do echo Waiting for the database...; sleep 5; done;']
       containers:
-      - image: ozennou/ronda_game:latest
+      - image: ozennou/ronda_game:1.0.0.v
         name: ronda-game
         imagePullPolicy: Always
         envFrom:
