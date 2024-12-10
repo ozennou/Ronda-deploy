@@ -1,4 +1,4 @@
-name: CleanUp the AKS cluster from added resources
+name: CleanUp the AKS cluster
 
 on:
   workflow_dispatch:
