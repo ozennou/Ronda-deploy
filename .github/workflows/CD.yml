@@ -40,16 +40,18 @@ jobs:
           admin: 'false'
           use-kubelogin: 'true'
 
-      - name: test1
-        run: kubectl config view
+      - name: Create .env file
+        run: |
+            cat << EOF > .env
+            POSTGRES_USER=${{ vars.POSTGRES_USER }}
+            POSTGRES_HOST=${{ vars.POSTGRES_HOST }}
+            POSTGRES_DB=${{ vars.POSTGRES_DB }}
+            POSTGRES_PASSWD=${{ secrets.POSTGRES_PASSWD }}
+            REDIS_PASSWD=${{ secrets.REDIS_PASSWD }}
+            EOF
 
-      - name: test2
-        run: kubectl get nodes --request-timeout=1m
-
-      # - name: Deploys application
-      #   uses: Azure/k8s-deploy@v4
-      #   with:
-      #     action: deploy
-      #     manifests: ${{ env.DEPLOYMENT_MANIFEST_PATH }}
-      #     images: |
-      #       ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
+      - name: Deployment
+        run: |
+          kubectl create secret generic app-secret --from-env-file=.env
+          kubectl apply -f ./k8s
+        
