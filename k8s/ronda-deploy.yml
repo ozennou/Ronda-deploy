@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: ronda
+    backend: ronda
   name: ronda
 spec:
   replicas: 1

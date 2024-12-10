@@ -4,6 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     app: ronda
+    backend: ronda
   name: ronda
 spec:
   ports:

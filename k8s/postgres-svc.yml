@@ -4,6 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     app: postgres
+    backend: ronda
   name: database
 spec:
   ports:

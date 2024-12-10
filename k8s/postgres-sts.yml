@@ -3,6 +3,7 @@ kind: StatefulSet
 metadata:
   labels:
     app: postgres
+    backend: ronda
   name: postgres
 spec:
   serviceName: database

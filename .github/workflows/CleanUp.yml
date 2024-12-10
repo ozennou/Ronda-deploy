@@ -1,0 +1,43 @@
+name: CleanUp the AKS cluster from added resources
+
+on:
+  workflow_dispatch:
+
+jobs:
+    cleanup:
+
+        permissions:
+          actions: read
+          contents: read
+          id-token: write
+        
+        runs-on: ubuntu-latest
+      
+        steps:
+          - uses: actions/checkout@v4
+    
+          - name: Azure login
+            uses: azure/login@v1.4.6
+            with:
+              client-id: ${{ secrets.AZURE_CLIENT_ID }}
+              tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+              subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+    
+          - name: Set up kubelogin for non-interactive login
+            uses: azure/use-kubelogin@v1
+            with:
+              kubelogin-version: 'v0.0.25'
+    
+          - name: Get K8s context
+            uses: azure/aks-set-context@v3
+            with:
+              resource-group: ${{ vars.RESOURCE_GROUP }}
+              cluster-name: ${{ vars.CLUSTER_NAME }}
+              admin: 'false'
+              use-kubelogin: 'true'
+        
+          - name: Remove the k8s objects
+            run: |
+              kubectl delete all --all -n default -l backend=ronda
+              
+      

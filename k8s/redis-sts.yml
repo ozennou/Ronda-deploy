@@ -3,6 +3,7 @@ kind: StatefulSet
 metadata:
   labels:
     app: redis
+    backend: ronda
   name: redis
 spec:
   replicas: 1

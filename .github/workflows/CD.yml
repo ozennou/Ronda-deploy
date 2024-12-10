@@ -5,18 +5,16 @@ on:
     branches: ["main"]
   workflow_dispatch:
 
-env:
-  RESOURCE_GROUP: "Ronda-game_group"
-  CLUSTER_NAME: "Ronda-game"
-
 jobs:
-
   deploy:
+
     permissions:
       actions: read
       contents: read
       id-token: write
+    
     runs-on: ubuntu-latest
+  
     steps:
       - uses: actions/checkout@v4
 
@@ -52,6 +50,6 @@ jobs:
 
       - name: Deployment
         run: |
-          kubectl create secret generic app-secret --from-env-file=.env
+          kubectl create secret generic app-secret --from-env-file=.env --labels="backend=ronda"
           kubectl apply -f ./k8s
         
