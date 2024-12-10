@@ -50,7 +50,7 @@ jobs:
 
       - name: Deployment
         run: |
-          kubectl create secret generic app-secret --from-env-file=.env
+          kubectl create secret generic app-secret --from-env-file=.env || true
           kubectl label secret app-secret backend=ronda
           kubectl apply -f ./k8s
         
